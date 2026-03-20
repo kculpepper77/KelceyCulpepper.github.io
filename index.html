@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kelcey Culpepper | Interactive Resume</title>
+  <style>
+    :root {
+      --navy:#0f172a;
+      --navy-2:#1e293b;
+      --violet:#6d28d9;
+      --teal:#0f766e;
+      --sky:#e0e7ff;
+      --paper:#ffffff;
+      --ink:#0f172a;
+      --muted:#64748b;
+      --line:#e2e8f0;
+      --soft:#f8fafc;
+      --good:#ecfdf5;
+      --good-text:#166534;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f7fb;color:var(--ink);line-height:1.55}
+    a{color:inherit}
+    .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+    .toolbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .toolbar .wrap{display:flex;gap:16px;flex-wrap:wrap;padding:12px 20px}
+    .toolbar a{text-decoration:none;font-size:14px;color:var(--muted)}
+    .toolbar a:hover{color:var(--violet)}
+    .hero{background:linear-gradient(135deg,var(--navy),var(--navy-2) 45%, #312e81);color:#fff;padding:64px 0 46px}
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:start}
+    h1,h2,h3,h4{margin:0 0 10px}
+    h1{font-size:46px;line-height:1.06}
+    h2{font-size:30px}
+    h3{font-size:20px}
+    p{margin:0 0 12px}
+    .subtitle{font-size:19px;color:#dbeafe;max-width:760px}
+    .badge-row,.btn-row,.chip-row,.mini-row{display:flex;gap:10px;flex-wrap:wrap}
+    .badge,.chip,.mini-chip{padding:8px 12px;border-radius:999px;font-size:13px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.12)}
+    .mini-chip{background:#eef2ff;border-color:#c7d2fe;color:#4338ca}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:12px;text-decoration:none;font-weight:700;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.12);color:#fff}
+    .btn.primary{background:#7c3aed;border-color:#7c3aed}
+    .hero-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:18px;padding:20px}
+    .hero-stat{font-size:28px;font-weight:700}
+    .section{padding:34px 0}
+    .grid{display:grid;gap:20px}
+    .grid-2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+    .grid-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(15,23,42,.05)}
+    .muted{color:var(--muted)}
+    .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--violet);font-weight:700;margin-bottom:8px}
+    .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-top:16px}
+    .metric{background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:16px}
+    .metric .num{font-size:30px;font-weight:800;color:var(--violet)}
+    .timeline{position:relative;padding-left:16px}
+    .timeline:before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:#cbd5e1}
+    .timeline-item{position:relative;padding-left:24px;margin-bottom:24px}
+    .timeline-item:last-child{margin-bottom:0}
+    .timeline-item:before{content:"";position:absolute;left:0;top:7px;width:16px;height:16px;border-radius:50%;background:var(--violet);box-shadow:0 0 0 4px #ede9fe}
+    .timeline-meta{font-size:14px;color:var(--muted);margin-bottom:8px}
+    .impact-list{margin:10px 0 0;padding-left:18px}
+    .impact-list li{margin-bottom:8px}
+    .skill-pillar{background:linear-gradient(180deg,#fff,#f8fafc)}
+    .skill-pillar ul{margin:10px 0 0;padding-left:18px}
+    .split{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}
+    .case-card{position:relative;overflow:hidden}
+    .case-card .tag{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#ede9fe;color:#5b21b6;margin-bottom:12px}
+    .outcome{margin-top:12px;padding:12px;border-radius:14px;background:var(--good);color:var(--good-text);font-size:14px;font-weight:700}
+    .accordion{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+    .accordion-item{border-top:1px solid var(--line)}
+    .accordion-item:first-child{border-top:none}
+    .accordion button{width:100%;text-align:left;border:none;background:#fff;padding:16px 18px;font-size:16px;font-weight:700;cursor:pointer}
+    .accordion .panel{display:none;padding:0 18px 18px;color:var(--muted)}
+    .accordion-item.open .panel{display:block}
+    .chat-layout{display:grid;grid-template-columns:1.08fr .92fr;gap:20px}
+    .chat-box{min-height:400px;border:1px solid var(--line);background:#f8fafc;border-radius:16px;padding:14px;overflow:auto}
+    .msg{padding:12px 14px;border-radius:14px;max-width:92%;margin-bottom:12px;font-size:15px}
+    .msg.bot{background:#ede9fe}
+    .msg.user{background:#dcfce7;margin-left:auto}
+    .faq button{width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;padding:12px 14px;cursor:pointer;margin-bottom:10px;font-size:14px}
+    input[type="text"]{width:100%;padding:13px 14px;border:1px solid #cbd5e1;border-radius:12px;font-size:15px}
+    .contact-box{background:linear-gradient(135deg,#ffffff,#eef2ff)}
+    .footer{padding:18px 0 50px;font-size:14px;color:var(--muted)}
+    @media (max-width:930px){.hero-grid,.split,.chat-layout{grid-template-columns:1fr}h1{font-size:38px}}
+  </style>
+</head>
+<body>
+  <nav class="toolbar">
+    <div class="wrap">
+      <a href="#about">About</a>
+      <a href="#achievements">Highlights</a>
+      <a href="#experience">Experience</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#fit">Role Fit</a>
+      <a href="#chatbot">Recruiter Chatbot</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow" style="color:#c4b5fd">Interactive Resume</div>
+        <h1>Kelcey Culpepper</h1>
+        <p class="subtitle">Technical Project Manager with experience across digital delivery, platform implementation, marketing technology, executive communication, governance, and cross-functional project execution.</p>
+        <div class="badge-row" style="margin:18px 0 22px">
+          <span class="badge">PMP Certified</span>
+          <span class="badge">Scrum Master</span>
+          <span class="badge">CAPM</span>
+          <span class="badge">Atlanta, Georgia</span>
+          <span class="badge">Remote / Hybrid</span>
+        </div>
+        <div class="btn-row">
+          <a class="btn primary" href="#chatbot">Chat With My Resume</a>
+          <a class="btn" href="#portfolio">View Case Studies</a>
+          <a class="btn" href="#contact">Book Interview</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h3>Recruiter Snapshot</h3>
+        <div class="metrics">
+          <div class="metric"><div class="num">15+</div><div class="muted">Years across PM, marketing, and operations roles</div></div>
+          <div class="metric"><div class="num">3</div><div class="muted">Active project credentials listed</div></div>
+          <div class="metric"><div class="num">6+</div><div class="muted">Industries represented</div></div>
+          <div class="metric"><div class="num">12+</div><div class="muted">Core platforms and PM tools</div></div>
+        </div>
+        <p style="margin-top:14px;color:#e2e8f0">Strong fit for Technical Project Manager, Implementation PM, Marketing Technology PM, PMO Delivery Lead, or cross-functional operations roles.</p>
+      </div>
+    </div>
+  </header>
+
+  <section id="about" class="section">
+    <div class="wrap split">
+      <div class="card">
+        <div class="eyebrow">Why Kelcey</div>
+        <h2>Executive Summary</h2>
+        <p>Kelcey blends technical project delivery with stakeholder-facing communication, making her especially effective in environments where execution, reporting, change adoption, and team alignment all matter.</p>
+        <p>Her background spans digital transformation, SaaS implementation, marketing technology, process improvement, system rollout support, and operational planning. She has worked with technical teams, business stakeholders, marketing leaders, and vendors to keep projects moving with clarity and accountability.</p>
+        <div class="mini-row" style="margin-top:12px">
+          <span class="mini-chip">Agile + Hybrid Delivery</span>
+          <span class="mini-chip">Executive Reporting</span>
+          <span class="mini-chip">Platform Rollouts</span>
+          <span class="mini-chip">Stakeholder Alignment</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Top Search Matches</div>
+        <h2>Keywords Recruiters Are Looking For</h2>
+        <div class="chip-row">
+          <span class="chip" style="background:#f8fafc;border:1px solid var(--line);color:var(--ink)">Technical Project Manager</span>
+          <span class="chip" style="background:#f8fafc;border:1px solid var(--line);color:var(--ink)">Implementation PM</span>
+          <span class="chip" style="background:#f8fafc;border:1px solid var(--line);color:var(--ink)">Digital PM</span>
+          <span class="chip" style="background:#f8fafc;border:1px solid var(--line);color:var(--ink)">Marketing Technology</span>
+          <span class="chip" style="background:#f8fafc;border:1px solid var(--line);color:var(--ink)">Agile / Scrum</span>
+          <span class="chip" style="background:#f8fafc;border:1px solid var(--line);color:var(--ink)">Change Communication</span>
+          <span class="chip" style="background:#f8fafc;border:1px solid var(--line);color:var(--ink)">Cross-Functional Delivery</span>
+          <span class="chip" style="background:#f8fafc;border:1px solid var(--line);color:var(--ink)">Executive Dashboards</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="achievements" class="section">
+    <div class="wrap">
+      <div class="card">
+        <div class="eyebrow">Step 2 Upgrade</div>
+        <h2>Achievement Highlights</h2>
+        <div class="grid grid-2" style="margin-top:14px">
+          <div>
+            <ul class="impact-list">
+              <li>Led end-to-end technical projects spanning digital, IT, and business operations with responsibility for scope, timelines, risks, dependencies, and communication.</li>
+              <li>Built executive briefings, dashboards, SOPs, training materials, and rollout messaging to improve visibility and adoption.</li>
+              <li>Partnered with developers, DevOps teams, engineers, marketing leaders, operations teams, and vendors across complex initiatives.</li>
+            </ul>
+          </div>
+          <div>
+            <ul class="impact-list">
+              <li>Supported implementations and customization work involving D365, Salesforce, marketing platforms, and system integrations.</li>
+              <li>Managed sprint-based work, burn-down tracking, milestones, QA coordination, and continuous delivery practices.</li>
+              <li>Brought both technical and business language together so stakeholders could make faster, clearer decisions.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" class="section">
+    <div class="wrap card">
+      <div class="eyebrow">Career Story</div>
+      <h2>Interactive Career Timeline</h2>
+      <div class="timeline" style="margin-top:18px">
+        <div class="timeline-item">
+          <h3>TE Connectivity — Technical Project Manager / Communication Specialist</h3>
+          <div class="timeline-meta">06/2023 – Present | Remote</div>
+          <p>Leads complex technical projects across digital, IT, and business operations. Supports governance, dashboards, executive briefings, SOP creation, rollout communications, and operational readiness.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>Quickbase — Technical Project Manager</h3>
+          <div class="timeline-meta">02/2020 – 06/2023 | Remote</div>
+          <p>Managed implementation timelines, critical path, and resource planning while partnering with DevOps, sales, and leadership. Worked across Azure DevOps, Asana project conversion, D365, Salesforce, QA, and solution-gap analysis.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>Eaton Lighting — Strategic Marketing Technical Project Manager</h3>
+          <div class="timeline-meta">02/2016 – 02/2020 | Remote</div>
+          <p>Aligned strategic marketing goals with technical execution through website development, app integration, automation support, SAP planning, KPI reporting, and mitigation planning.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>Crowne Plaza Atlanta Midtown — Construction Project Manager</h3>
+          <div class="timeline-meta">06/2014 – 02/2016 | Atlanta, GA</div>
+          <p>Led budgeting, vendor coordination, site assessments, permits, inspections, and project documentation for renovation-related work.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>Aspire Capital Management — Marketing Project Manager</h3>
+          <div class="timeline-meta">12/2010 – 07/2014 | Duluth, GA</div>
+          <p>Drove campaign support, onboarding, database organization, RFP/RFI responses, and marketing collateral coordination.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="portfolio" class="section">
+    <div class="wrap">
+      <div class="eyebrow">Recruiter Conversion Section</div>
+      <h2>Case Study Portfolio</h2>
+      <div class="grid grid-3" style="margin-top:16px">
+        <div class="card case-card">
+          <span class="tag">Case Study 01</span>
+          <h3>Technical Rollout & Change Readiness</h3>
+          <p class="muted">Representative of TE Connectivity work</p>
+          <p>Supported end-to-end technical projects by translating requirements into execution plans, aligning stakeholders, and building rollout communications, dashboards, SOPs, and training materials.</p>
+          <div class="outcome">Strength shown: delivery + adoption + executive visibility</div>
+        </div>
+        <div class="card case-card">
+          <span class="tag">Case Study 02</span>
+          <h3>Platform Implementation & DevOps Coordination</h3>
+          <p class="muted">Representative of Quickbase work</p>
+          <p>Managed scope, timelines, milestones, critical path, burn-down tracking, and sprint coordination across implementation projects involving D365, Salesforce, QA/testing, and DevOps collaboration.</p>
+          <div class="outcome">Strength shown: implementation leadership + cross-functional delivery</div>
+        </div>
+        <div class="card case-card">
+          <span class="tag">Case Study 03</span>
+          <h3>Marketing Technology & KPI Reporting</h3>
+          <p class="muted">Representative of Eaton Lighting work</p>
+          <p>Connected strategic marketing initiatives to technical execution through website work, app integration, ERP-supported planning, stakeholder communication, and KPI/ROI reporting.</p>
+          <div class="outcome">Strength shown: martech + business translation + reporting</div>
+        </div>
+      </div>
+      <div class="grid grid-3" style="margin-top:20px">
+        <div class="card skill-pillar">
+          <h3>Project Delivery Toolkit</h3>
+          <ul>
+            <li>Agile, Scrum, Waterfall, Hybrid</li>
+            <li>Risk, scope, dependency, and timeline management</li>
+            <li>Change communication and training readiness</li>
+            <li>Status reporting and governance structure</li>
+          </ul>
+        </div>
+        <div class="card skill-pillar">
+          <h3>Platforms & Systems</h3>
+          <ul>
+            <li>Asana, Jira, Wrike, Workfront, Quickbase</li>
+            <li>Azure DevOps, Confluence, Slack, Zoom</li>
+            <li>Salesforce, D365, HubSpot, Marketo, SAP</li>
+            <li>Tableau, Google Drive, Microsoft 365</li>
+          </ul>
+        </div>
+        <div class="card skill-pillar">
+          <h3>Stakeholders Worked With</h3>
+          <ul>
+            <li>Executives and business leaders</li>
+            <li>Developers, engineers, and DevOps teams</li>
+            <li>Marketing, operations, and vendors</li>
+            <li>Cross-functional delivery teams</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fit" class="section">
+    <div class="wrap split">
+      <div class="card">
+        <div class="eyebrow">Role Match</div>
+        <h2>Best-Fit Roles</h2>
+        <div class="chip-row" style="margin-top:12px">
+          <span class="mini-chip">Technical Project Manager</span>
+          <span class="mini-chip">Implementation PM</span>
+          <span class="mini-chip">Digital Project Manager</span>
+          <span class="mini-chip">Marketing Technology PM</span>
+          <span class="mini-chip">PMO / Delivery Lead</span>
+          <span class="mini-chip">Change & Communications PM</span>
+        </div>
+        <p style="margin-top:14px">Kelcey is especially compelling for roles that require someone who can keep delivery organized while also owning executive communication, documentation, user readiness, and stakeholder trust.</p>
+      </div>
+      <div class="card">
+        <div class="eyebrow">Interview Readiness</div>
+        <h2>Recruiter FAQ</h2>
+        <div class="accordion" style="margin-top:14px">
+          <div class="accordion-item open">
+            <button type="button">Does she have Agile experience?</button>
+            <div class="panel"><p>Yes. Her resume shows Agile and Scrum methodologies, sprint management, burn-down tracking, and hybrid delivery models across technical and implementation work.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button type="button">Has she worked with developers and technical teams?</button>
+            <div class="panel"><p>Yes. She has coordinated with developers, DevOps teams, engineers, marketers, operations teams, executives, and vendors.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button type="button">What systems and tools has she used?</button>
+            <div class="panel"><p>Examples include Asana, Jira, Wrike, Quickbase, Azure DevOps, Salesforce, D365, HubSpot, Marketo, SAP, Tableau, Slack, Confluence, and Microsoft 365.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button type="button">What industries has she worked in?</button>
+            <div class="panel"><p>Her background touches manufacturing, SaaS, marketing technology, construction, hospitality, financial services, and higher education support.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="chatbot" class="section">
+    <div class="wrap chat-layout">
+      <div class="card">
+        <div class="eyebrow">Demo Experience</div>
+        <h2>Recruiter Chatbot</h2>
+        <div id="chatBox" class="chat-box">
+          <div class="msg bot">Hi, I’m Kelcey’s resume assistant. Ask about tools, industries, certifications, Agile experience, platform implementations, or role fit.</div>
+        </div>
+        <input id="chatInput" type="text" placeholder="Ask: Does Kelcey have Agile experience?" />
+      </div>
+      <div class="card">
+        <div class="eyebrow">Suggested Prompts</div>
+        <h2>Ask These Questions</h2>
+        <div class="faq" style="margin-top:10px">
+          <button type="button" data-q="Does Kelcey have Agile experience?">Does Kelcey have Agile experience?</button>
+          <button type="button" data-q="What tools does Kelcey use?">What tools does Kelcey use?</button>
+          <button type="button" data-q="Has Kelcey worked with developers?">Has Kelcey worked with developers?</button>
+          <button type="button" data-q="What industries has Kelcey worked in?">What industries has Kelcey worked in?</button>
+          <button type="button" data-q="What kinds of roles is Kelcey best suited for?">What kinds of roles is Kelcey best suited for?</button>
+          <button type="button" data-q="Tell me about Kelcey's certifications">Tell me about Kelcey’s certifications</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="wrap">
+      <div class="card contact-box">
+        <div class="eyebrow">Next Step</div>
+        <h2>Interested in Interviewing Kelcey?</h2>
+        <p>Add your preferred scheduling link, recruiter email, LinkedIn URL, and PDF resume download here before publishing.</p>
+        <div class="grid grid-3" style="margin-top:14px">
+          <div class="metric"><div class="num" style="font-size:18px">Email</div><div class="muted">kculpepper2690@gmail.com</div></div>
+          <div class="metric"><div class="num" style="font-size:18px">Phone</div><div class="muted">(678) 898-4336</div></div>
+          <div class="metric"><div class="num" style="font-size:18px">LinkedIn</div><div class="muted">linkedin.com/in/kelceyculpepper777/</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">Step 2 upgrade includes achievement highlights, case-study cards, recruiter FAQ, and an enhanced chatbot-ready layout.</div>
+  </footer>
+
+  <script>
+    const kb = {
+      agile: "Yes. Kelcey has experience with Agile and Scrum methodologies, sprint management, burn-down tracking, and hybrid delivery models across technical and implementation projects.",
+      tools: "Kelcey has used Asana, Jira, Wrike, Quickbase, Azure DevOps, Confluence, Slack, Zoom, Salesforce, D365, HubSpot, Marketo, SAP, Tableau, Google Drive, and Microsoft 365.",
+      developers: "Yes. She has coordinated with developers, DevOps teams, engineers, marketing teams, operations, leadership, and vendors across technical projects and implementations.",
+      industries: "Her experience spans manufacturing, SaaS, marketing technology, construction, hospitality, financial services, and higher education support.",
+      certifications: "Kelcey lists PMP, CAPM, and Scrum Master Certification on her resume.",
+      rolefit: "Best-fit roles include Technical Project Manager, Implementation PM, Digital Project Manager, Marketing Technology PM, PMO / Delivery Lead, and communication-focused project leadership roles.",
+      implementation: "She has supported platform implementation and customization involving D365, Salesforce, system integrations, QA/testing coordination, training materials, and rollout readiness.",
+      communication: "A major strength is translating technical work into business-friendly communication through dashboards, executive briefings, SOPs, status reports, and rollout messaging."
+    };
+
+    const chatBox = document.getElementById('chatBox');
+    const chatInput = document.getElementById('chatInput');
+
+    function addMsg(text, who){
+      const div = document.createElement('div');
+      div.className = 'msg ' + who;
+      div.textContent = text;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function respond(q){
+      const t = q.toLowerCase();
+      let answer = "Kelcey is a technical project manager with strong experience in project delivery, stakeholder communication, platform implementation, and cross-functional coordination. Try asking about Agile, tools, industries, certifications, or role fit.";
+      if (t.includes('agile') || t.includes('scrum')) answer = kb.agile;
+      else if (t.includes('tool') || t.includes('software') || t.includes('platform')) answer = kb.tools;
+      else if (t.includes('developer') || t.includes('engineer') || t.includes('devops')) answer = kb.developers;
+      else if (t.includes('industry') || t.includes('sector')) answer = kb.industries;
+      else if (t.includes('cert') || t.includes('pmp') || t.includes('capm')) answer = kb.certifications;
+      else if (t.includes('role') || t.includes('fit') || t.includes('best suited')) answer = kb.rolefit;
+      else if (t.includes('implement') || t.includes('d365') || t.includes('salesforce') || t.includes('integration')) answer = kb.implementation;
+      else if (t.includes('communicat') || t.includes('dashboard') || t.includes('report')) answer = kb.communication;
+      addMsg(answer, 'bot');
+    }
+
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && chatInput.value.trim()) {
+        const q = chatInput.value.trim();
+        addMsg(q, 'user');
+        chatInput.value = '';
+        respond(q);
+      }
+    });
+
+    document.querySelectorAll('.faq button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const q = btn.getAttribute('data-q');
+        addMsg(q, 'user');
+        respond(q);
+      });
+    });
+
+    document.querySelectorAll('.accordion button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        item.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
